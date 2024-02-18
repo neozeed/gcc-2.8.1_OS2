@@ -1,0 +1,7 @@
+# Don't run fixproto
+STMP_FIXPROTO =
+
+# Don't install "assert.h" in gcc. We use the one in glibc.
+INSTALL_ASSERT_H =
+# The pushl in CTOR initialization interferes with frame pointer elimination.
+CRTSTUFF_T_CFLAGS = -fno-omit-frame-pointer

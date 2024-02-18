@@ -84,6 +84,7 @@ union wait;
 
 /* Get size_t and wchar_t.  */
 #include <stddef.h>
+typedef int* wchar_t;
 
 /* #include "sys/types.h" */
 #define ssize_t int
