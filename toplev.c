@@ -30,7 +30,9 @@ Boston, MA 02111-1307, USA.  */
 #include <varargs.h>
 #endif
 #include <stdio.h>
+#ifndef OS2
 #include <signal.h>
+#endif
 #include <setjmp.h>
 #include <sys/types.h>
 #include <ctype.h>
@@ -931,7 +933,7 @@ int dump_time;
 int
 get_run_time ()
 {
-#ifndef _WIN32
+#ifndef OS2
 #ifdef USG
   struct tms tms;
 #else
@@ -951,7 +953,7 @@ get_run_time ()
 
   if (quiet_flag)
     return 0;
-#ifdef _WIN32
+#ifdef OS2
   if (clock() < 0)
     return 0;
   else
@@ -1962,6 +1964,7 @@ float_signal (signo)
      /* If this is missing, some compilers complain.  */
      int signo;
 {
+#ifndef OS2
   if (float_handled == 0)
     abort ();
 #if defined (USG) || defined (hpux)
@@ -1970,6 +1973,7 @@ float_signal (signo)
   float_handled = 0;
   signal (SIGFPE, float_signal);
   longjmp (float_handler, 1);
+#endif
 }
 
 /* Specify where to longjmp to when a floating arithmetic error happens.
@@ -1979,6 +1983,7 @@ void
 set_float_handler (handler)
      jmp_buf handler;
 {
+#ifndef OS2
   float_handled = (handler != 0);
   if (handler)
     bcopy ((char *) handler, (char *) float_handler, sizeof (float_handler));
@@ -1988,6 +1993,7 @@ set_float_handler (handler)
       signal (SIGFPE, float_signal);
       float_handler_set = 1;
     }
+#endif
 }
 
 /* Specify, in HANDLER, where to longjmp to when a floating arithmetic
@@ -3750,7 +3756,9 @@ main (argc, argv, envp)
   }
 #endif
 
+#ifndef OS2
   signal (SIGFPE, float_signal);
+#endif
 
 #ifdef SIGPIPE
   signal (SIGPIPE, pipe_closed);

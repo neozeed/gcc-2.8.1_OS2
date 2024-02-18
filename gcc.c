@@ -35,7 +35,9 @@ compilation is specified by a string called a "spec".  */
 
 #include <sys/types.h>
 #include <ctype.h>
+#ifndef OS2
 #include <signal.h>
+#endif
 #include <sys/stat.h>
 #include <errno.h>
 
@@ -70,6 +72,7 @@ extern char *update_path PROTO((char *, char *));
 #define PEXECUTE_SEARCH  4
 #define PEXECUTE_VERBOSE 8
 
+#ifndef GCC
 #ifndef WIFSIGNALED
 #define WIFSIGNALED(S) (((S) & 0xff) != 0 && ((S) & 0xff) != 0x7f)
 #endif
@@ -81,6 +84,7 @@ extern char *update_path PROTO((char *, char *));
 #endif
 #ifndef WEXITSTATUS
 #define WEXITSTATUS(S) (((S) & 0xff00) >> 8)
+#endif
 #endif
 
 #ifdef VMS
@@ -2254,6 +2258,7 @@ execute ()
 	      i++;
 	      if (status != 0)
 		{
+#ifndef OS2
 		  if (WIFSIGNALED (status))
 		    {
 		      fatal ("Internal compiler error: program %s got fatal signal %d",
@@ -2263,6 +2268,7 @@ execute ()
 		    }
 		  else if (WIFEXITED (status)
 			   && WEXITSTATUS (status) >= MIN_FATAL_STATUS)
+#endif
 		    ret_code = -1;
 		}
 	      break;
@@ -4341,17 +4347,20 @@ is_directory (path1, path2, linker)
 
 /* On fatal signals, delete all the temporary files.  */
 
+#ifndef OS2
 static void
 fatal_error (signum)
      int signum;
 {
   signal (signum, SIG_DFL);
+
   delete_failure_queue ();
   delete_temp_files ();
   /* Get the same signal again, this time not handled,
      so its normal effect occurs.  */
   kill (getpid (), signum);
 }
+#endif
 
 int
 main (argc, argv)
@@ -4371,6 +4380,7 @@ main (argc, argv)
   while (p != argv[0] && p[-1] != '/' && p[-1] != DIR_SEPARATOR) --p;
   programname = p;
 
+#ifndef OS2
   if (signal (SIGINT, SIG_IGN) != SIG_IGN)
     signal (SIGINT, fatal_error);
 #ifdef SIGHUP
@@ -4382,6 +4392,7 @@ main (argc, argv)
 #ifdef SIGPIPE
   if (signal (SIGPIPE, SIG_IGN) != SIG_IGN)
     signal (SIGPIPE, fatal_error);
+#endif
 #endif
 
   /* If this is a test release of GCC, issue a warning.  */

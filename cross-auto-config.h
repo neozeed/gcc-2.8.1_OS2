@@ -1,8 +1,8 @@
-#ifndef OS2_CROSS
+#define PREFIX "/os2"
 /* auto-config.h.  Generated automatically by configure.  */
 /* config.in.  Generated automatically from configure.in by autoheader.  */
 /* Define if you have a working <inttypes.h> header file.  */
-#define HAVE_INTTYPES_H 1
+//#define HAVE_INTTYPES_H 1
 
 /* Whether malloc must be declared even if <stdlib.h> is included.  */
 /* #undef NEED_DECLARATION_MALLOC */
@@ -35,7 +35,9 @@
 /* #undef SYS_SIGLIST_DECLARED */
 
 /* Define if you can safely include both <sys/time.h> and <time.h>.  */
-#define TIME_WITH_SYS_TIME 1
+//#define TIME_WITH_SYS_TIME 1
+#define TARGET_NAME "ns32k"
+#define NO_STAB_H 1
 
 /* Define if you have the bcmp function.  */
 #define HAVE_BCMP 1
@@ -53,7 +55,7 @@
 #define HAVE_INDEX 1
 
 /* Define if you have the kill function.  */
-#define HAVE_KILL 1
+//#define HAVE_KILL 1
 
 /* Define if you have the popen function.  */
 #define HAVE_POPEN 1
@@ -95,25 +97,30 @@
 #define HAVE_STRINGS_H 1
 
 /* Define if you have the <sys/file.h> header file.  */
-#define HAVE_SYS_FILE_H 1
+//#define HAVE_SYS_FILE_H 1
 
 /* Define if you have the <sys/param.h> header file.  */
-#define HAVE_SYS_PARAM_H 1
+//#define HAVE_SYS_PARAM_H 1
 
 /* Define if you have the <sys/resource.h> header file.  */
-#define HAVE_SYS_RESOURCE_H 1
+//#define HAVE_SYS_RESOURCE_H 1
 
 /* Define if you have the <sys/time.h> header file.  */
-#define HAVE_SYS_TIME_H 1
+//#define HAVE_SYS_TIME_H 1
 
 /* Define if you have the <sys/times.h> header file.  */
-#define HAVE_SYS_TIMES_H 1
+//#define HAVE_SYS_TIMES_H 1
 
 /* Define if you have the <time.h> header file.  */
 #define HAVE_TIME_H 1
 
 /* Define if you have the <unistd.h> header file.  */
-#define HAVE_UNISTD_H 1
-#else
-#include "cross-auto-config.h"
-#endif
+//#define HAVE_UNISTD_H 1
+//
+#define USG 1
+
+#define GPLUSPLUS_INCLUDE_DIR "/ns32k/h"
+#define OLD_GPLUSPLUS_INCLUDE_DIR "/ns32k/h"
+#define GCC_INCLUDE_DIR "/ns32k/h"
+#define CROSS_INCLUDE_DIR "/ns32k/h"
+#define GCC_INCLUDE_DIR "/ns32k/h"

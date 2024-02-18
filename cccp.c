@@ -23,7 +23,9 @@ Boston, MA 02111-1307, USA. */
 #include <sys/stat.h>
 #include <ctype.h>
 #include <stdio.h>
+#ifndef OS2
 #include <signal.h>
+#endif
 
 #ifdef TIME_WITH_SYS_TIME
 # include <sys/time.h>
@@ -1244,8 +1246,10 @@ main (argc, argv)
   }
 #endif
 
+#ifndef OS2
 #ifdef SIGPIPE
   signal (SIGPIPE, pipe_closed);
+#endif
 #endif
 
   progname = base_name (argv[0]);

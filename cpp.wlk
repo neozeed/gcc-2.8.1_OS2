@@ -1,0 +1,9 @@
+SYS os2v2
+NAME cpp
+OP ST=256000
+FILE cccp.obj,cexp.obj,prefix.obj
+FILE version.obj,obstack.obj
+LIBR libc.lib
+LIBR os2386.lib
+LIBR gnulib.lib
+LIBR gnulib2.lib

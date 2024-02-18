@@ -1,0 +1,104 @@
+
+OBJ = c-parse.obj c-lang.obj c-lex.obj c-pragma.obj c-decl.obj c-typeck.obj c-convert.obj c-aux-info.obj \
+c-common.obj c-iterate.obj  toplev.obj version.obj tree.obj print-tree.obj stor-layout.obj fold-const.obj \
+function.obj stmt.obj except.obj expr.obj calls.obj expmed.obj explow.obj optabs.obj varasm.obj rtl.obj \
+print-rtl.obj rtlanal.obj emit-rtl.obj real.obj dbxout.obj sdbout.obj dwarfout.obj dwarf2out.obj xcoffout.obj \
+bitmap.obj integrate.obj jump.obj cse.obj loop.obj unroll.obj flow.obj stupid.obj combine.obj regclass.obj \
+local-alloc.obj global.obj reload.obj reload1.obj caller-save.obj insn-peep.obj reorg.obj sched.obj final.obj \
+recog.obj reg-stack.obj insn-opinit.obj insn-recog.obj insn-extract.obj insn-output.obj insn-emit.obj \
+profile.obj insn-attrtab.obj getpwd.obj convert.obj  bc-emit.obj bc-optab.obj obstack.obj
+
+CC1HEAD = insn-attr.h insn-codes.h insn-config.h insn-flags.h bc-opcode.h  bc-arity.h
+CC1PRE = insn-attrtab.c insn-extract.c  insn-output.c  insn-recog.c \
+	insn-emit.c insn-opinit.c  insn-peep.c
+
+TARGOBJ = i386.obj
+
+XOBJ = gcc.obj prefix.obj version.obj choose-temp.obj pexecute.obj obstack.obj
+
+CPOBJ = cccp.obj cexp.obj prefix.obj version.obj obstack.obj
+
+CC=gcc
+CFLAGS=-DCROSS_COMPILE -DOS2_CROSS -DIN_GCC -DHAVE_CONFIG_H    -I. -I./config
+
+%.obj: %.c
+	$(CC) $(CFLAGS) -c $*.c
+	o2obj $*.o
+	rm -f $*.o
+
+
+all: cpp.exe cc1.exe xgcc.exe
+
+cc1.exe: $(CC1HEAD) $(CC1PRE) $(OBJ) $(TARGOBJ)
+	wlink @cc1.wlk
+
+xgcc.exe: multilib.h $(XOBJ)
+	wlink @xgcc.wlk
+
+cpp.exe: $(CPOBJ)
+	wlink @cpp.wlk
+
+ns32k.obj:
+	$(CC) $(CFLAGS) -c ./config/ns32k/ns32k.c
+	o2obj ns32k.o
+	rm -f ns32k.o
+
+i386.obj:
+	$(CC) $(CFLAGS) -c ./config/i386/i386.c
+	o2obj i386.o
+	rm -f i386.o
+
+gcc.obj:
+	$(CC) $(CFLAGS) -D__MSDOS__ -c gcc.c
+	o2obj gcc.o
+	rm -f gcc.o
+
+insn-attr.h:
+	cp prebuilt/insn-attr.h .
+
+insn-codes.h:
+	cp prebuilt/insn-codes.h .
+
+insn-config.h:
+	cp prebuilt/insn-config.h .
+
+insn-flags.h:
+	cp prebuilt/insn-flags.h .
+
+bc-opcode.h:
+	cp prebuilt/bc-opcode.h .
+
+bc-arity.h:
+	cp prebuilt/bc-arity.h .
+
+insn-attrtab.c:
+	cp prebuilt/insn-attrtab.c .
+
+insn-extract.c:
+	cp prebuilt/insn-extract.c . 
+
+insn-output.c:
+	cp prebuilt/insn-output.c .
+
+insn-recog.c:
+	cp prebuilt/insn-recog.c .
+
+insn-emit.c:
+	cp prebuilt/insn-emit.c .
+
+insn-opinit.c:
+	cp prebuilt/insn-opinit.c . 
+
+insn-peep.c:
+	cp prebuilt/insn-peep.c .
+
+multilib.h:
+	cp prebuilt/multilib.h .
+
+clean:
+	rm -f $(OBJ)
+	rm -f $(XOBJ)
+	rm -f $(CPOBJ)
+	rm -f $(TARGOBJ)
+	rm -f xgcc.exe cc1.exe cpp.exe
+
